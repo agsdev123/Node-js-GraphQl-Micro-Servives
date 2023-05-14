@@ -1,23 +1,31 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const typeDefs = require("./schema/userSchema");
+const schema = require("./schema/userSchema");
 const { ApolloServer } = require("apollo-server-express");
 const { graphqlHTTP } = require("express-graphql");
 const resolvers = require("./resolvers/userResolvers");
 const app = express();
 // Connect to MongoDB
-mongoose
-  .connect('mongodb+srv://agsdev123:9502404512@users.rw2n9oj.mongodb.net/",', {
+
+mongoose.connect(
+  "mongodb+srv://agsdev123:9502404512@users.rw2n9oj.mongodb.net/",
+  {
+    // Connecting to the MongoDB database
     useNewUrlParser: true,
     useUnifiedTopology: true,
-  })
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((error) => console.error("Failed to connect to MongoDB", error));
+  }
+);
+const db = mongoose.connection;
+
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
+db.once("open", () => {
+  console.log("MongoDB connected!");
+});
 
 app.use(
   "/graphql",
   graphqlHTTP({
-    schema: typeDefs,
+    schema,
     rootValue: resolvers,
     graphiql: true, // Enable GraphiQL for testing the API
   })

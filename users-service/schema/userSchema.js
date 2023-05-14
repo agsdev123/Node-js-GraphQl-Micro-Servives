@@ -1,23 +1,27 @@
-const { gql } = require("apollo-server-express");
 
-module.exports = gql`
+
+const { buildSchema } = require("graphql");
+
+const schema = buildSchema(`
   type User {
     id: ID!
     name: String!
     email: String!
+  
   }
 
-  input UserInput {
-    name: String!
-    email: String!
-  }
+
 
   type Query {
-    users: [User!]!
     user(id: ID!): User
+    users: [User!]!
+   
   }
 
   type Mutation {
-    createUser(input: UserInput!): User!
+    createUser(name: String!, email: String!): User
+  
   }
-`;
+`);
+
+module.exports = schema;
