@@ -1,0 +1,24 @@
+{
+  "name": "microservices-app",
+  "version": "1.0.0",
+  "description": "Monolithic application with microservices",
+  "scripts": {
+    "start:products": "nodemon products-service/index.js",
+    "start:users": "nodemon users-service/index.js",
+    "start:orders": "nodemon orders-service/index.js",
+    "start:gateway": "nodemon gateway-server/index.js",
+    "start": "concurrently \"npm run start:products\" \"npm run start:users\" \"npm run start:orders\" \"npm run start:gateway\""
+  },
+  "dependencies": {
+    "apollo-server-express": "^3.12.0",
+    "axios": "^0.24.0",
+    "concurrently": "^7.0.0",
+    "express": "^4.18.2",
+    "express-graphql": "^0.12.0",
+    "graphql": "^16.6.0",
+    "mongoose": "^6.0.12"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  }
+}
